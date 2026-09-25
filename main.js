@@ -35,8 +35,18 @@ class BoxConfigurator {
       this.bindUI();
       this.updateBox();
       this.updateCalculations();
+      this.onWindowResize();
+      this.resetCamera();
       this.renderer.setAnimationLoop(this._animate);
       window.addEventListener("resize", this._resizeHandler);
+      this._contextLostHandler = (event) => {
+        event.preventDefault();
+        this.renderer.setAnimationLoop(null);
+        this.showError("The WebGL context was lost. Restore the tab or reload the page to resume the 3D view.");
+      };
+      this._contextRestoredHandler = () => window.location.reload();
+      this.renderer.domElement.addEventListener("webglcontextlost", this._contextLostHandler, false);
+      this.renderer.domElement.addEventListener("webglcontextrestored", this._contextRestoredHandler, false);
       this.loading?.classList.add("hidden");
     } catch (error) {
       console.error("Hardbox configurator initialization failed:", error);
@@ -328,6 +338,10 @@ class BoxConfigurator {
     window.removeEventListener("resize", this._resizeHandler);
     this._listeners.forEach((remove) => remove());
     this.renderer?.setAnimationLoop(null);
+    if (this.renderer?.domElement) {
+      this.renderer.domElement.removeEventListener("webglcontextlost", this._contextLostHandler);
+      this.renderer.domElement.removeEventListener("webglcontextrestored", this._contextRestoredHandler);
+    }
     this.controls?.dispose();
     this.scene?.traverse((object) => {
       if (object.geometry) object.geometry.dispose();
