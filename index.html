@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive hardbox 3D configurator">
+  <title>Hardbox 3D Configurator</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main id="app">
+    <aside id="controls" aria-label="Hardbox configuration controls">
+      <div class="panel-header">
+        <p class="eyebrow">3D PRODUCT CONFIGURATOR</p>
+        <h1>Hardbox 3D Configurator</h1>
+        <p class="intro">Adjust the box dimensions and finish. The model and calculations update instantly.</p>
+      </div>
+
+      <section class="control-section" aria-labelledby="dimensions-title">
+        <h2 id="dimensions-title">Dimensions</h2>
+        <div class="slider-control">
+          <label for="length">Length <output id="length-value">200</output><span>mm</span></label>
+          <input id="length" type="range" min="50" max="500" step="1" value="200">
+        </div>
+        <div class="slider-control">
+          <label for="width">Width <output id="width-value">150</output><span>mm</span></label>
+          <input id="width" type="range" min="50" max="500" step="1" value="150">
+        </div>
+        <div class="slider-control">
+          <label for="baseHeight">Base Height <output id="baseHeight-value">80</output><span>mm</span></label>
+          <input id="baseHeight" type="range" min="20" max="300" step="1" value="80">
+        </div>
+        <div class="slider-control">
+          <label for="lidHeight">Lid Height <output id="lidHeight-value">40</output><span>mm</span></label>
+          <input id="lidHeight" type="range" min="10" max="100" step="1" value="40">
+        </div>
+        <div class="slider-control">
+          <label for="wallThickness">Wall Thickness <output id="wallThickness-value">2</output><span>mm</span></label>
+          <input id="wallThickness" type="range" min="1" max="5" step="0.5" value="2">
+        </div>
+        <div class="slider-control">
+          <label for="overlap">Overlap <output id="overlap-value">15</output><span>mm</span></label>
+          <input id="overlap" type="range" min="5" max="30" step="1" value="15">
+        </div>
+      </section>
+
+      <section class="control-section" aria-labelledby="appearance-title">
+        <h2 id="appearance-title">Appearance</h2>
+        <div class="field-row">
+          <label for="color">Box Color</label>
+          <input id="color" type="color" value="#ffffff" aria-label="Box color">
+        </div>
+        <div class="field-row">
+          <label for="finish">Finish</label>
+          <select id="finish">
+            <option value="matte">Matte</option>
+            <option value="satin">Satin</option>
+            <option value="glossy">Glossy</option>
+          </select>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button id="toggle-lid" type="button">Open Lid</button>
+        <button id="reset-camera" class="secondary" type="button">Reset Camera</button>
+      </div>
+
+      <section class="results" aria-labelledby="results-title">
+        <h2 id="results-title">Calculated Values</h2>
+        <dl>
+          <div><dt>Outer Dimensions</dt><dd id="outer-dimensions">—</dd></div>
+          <div><dt>Inner Dimensions</dt><dd id="inner-dimensions">—</dd></div>
+          <div><dt>Outer Volume</dt><dd id="outer-volume">—</dd></div>
+          <div><dt>Inner Volume</dt><dd id="inner-volume">—</dd></div>
+          <div><dt>Surface Area</dt><dd id="surface-area">—</dd></div>
+        </dl>
+      </section>
+    </aside>
+
+    <section id="viewport" aria-label="3D hardbox viewport">
+      <div id="loading" role="status" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <span>Preparing 3D view…</span>
+      </div>
+    </section>
+  </main>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
